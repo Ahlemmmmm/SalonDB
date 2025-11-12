@@ -1,6 +1,7 @@
-# 🌌 Celestial Bodies Database
+# 💇‍♀️ Salon Appointment Scheduler
 
-This project builds a complete PostgreSQL database about celestial bodies — including galaxies, stars, planets, and moons — as part of the **FreeCodeCamp Relational Database Certification**.
+A Bash + PostgreSQL project that manages a salon’s customer appointments directly from the terminal.  
+Built as part of the **FreeCodeCamp Relational Database Certification**.
 
 ---
 
@@ -9,9 +10,10 @@ This project builds a complete PostgreSQL database about celestial bodies — in
 ```
 
 .
-├── universe.sql          # Main SQL script that creates and populates the database
-├── README.md             # Project documentation
-└── .gitignore            # Optional: excludes unnecessary files
+├── salon.sql              # SQL file to create and populate the database
+├── salon.sh               # Bash script to manage user interaction
+├── README.md              # Project documentation
+└── .gitignore             # (optional) excludes unnecessary files
 
 ````
 
@@ -19,89 +21,106 @@ This project builds a complete PostgreSQL database about celestial bodies — in
 
 ## 🧠 Overview
 
-The **universe** database models astronomical entities and their relationships:
-- **Galaxies** contain multiple stars  
-- **Stars** may have several planets  
-- **Planets** may have multiple moons  
+The project connects a **Bash script** (`salon.sh`) with a **PostgreSQL database** (`salon`) to manage services and appointments.
 
-Each table includes descriptive columns, primary keys, foreign keys, and constraints to ensure data integrity.
+The user can:
+1. View available salon services  
+2. Select a service  
+3. Enter their name and phone number  
+4. Schedule an appointment  
+
+The system saves and displays all details in a friendly, terminal-based interface.
 
 ---
 
 ## 🧩 Database Schema
 
-**Tables included:**
-- `galaxy` – contains galaxy information (e.g., name, type, distance)
-- `star` – contains data about stars and links to their galaxy
-- `planet` – stores planet data and links to their star
-- `moon` – lists all moons linked to a planet
-- `planet_type` – defines types of planets (e.g., gas giant, terrestrial)
+**Tables:**
+
+- `services`  
+  - `service_id` (PK)  
+  - `name`  
+
+- `customers`  
+  - `customer_id` (PK)  
+  - `phone` (unique)  
+  - `name`  
+
+- `appointments`  
+  - `appointment_id` (PK)  
+  - `customer_id` (FK → customers)  
+  - `service_id` (FK → services)  
+  - `time`  
+
+All tables are linked via foreign keys with cascade relationships for data consistency.
 
 ---
 
 ## 🚀 Setup Instructions
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/<your-username>/celestial-bodies-database.git
-   cd celestial-bodies-database
+### 1. Clone the repository
+```bash
+git clone https://github.com/<your-username>/salon-appointment-scheduler.git
+cd salon-appointment-scheduler
 ````
 
-2. **Access PostgreSQL:**
+### 2. Load the database
 
-   ```bash
-   psql --username=freecodecamp --dbname=postgres
-   ```
+```bash
+psql --username=freecodecamp --dbname=postgres
+\i salon.sql
+```
 
-3. **Create and connect to the universe database:**
+### 3. Make the script executable
 
-   ```sql
-   CREATE DATABASE universe;
-   \c universe;
-   ```
+```bash
+chmod +x salon.sh
+```
 
-4. **Run the SQL script:**
+### 4. Run the program
 
-   ```bash
-   \i universe.sql
-   ```
-
-5. **Verify that all tests pass** on the FreeCodeCamp platform.
+```bash
+./salon.sh
+```
 
 ---
 
-## 🧾 Example Queries
+## 🧾 Example Interaction
 
-```sql
--- List all galaxies
-SELECT name FROM galaxy;
+```bash
+Welcome to My Salon, how can I help you?
 
--- Find all planets orbiting a given star
-SELECT planet.name
-FROM planet
-JOIN star ON planet.star_id = star.star_id
-WHERE star.name = 'Sun';
-
--- Count total number of moons
-SELECT COUNT(*) FROM moon;
+1) cut
+2) color
+3) perm
+4) style
+5) trim
+# 2
+What's your phone number?
+# 555-5555
+What's your name?
+# Ahlem
+What time would you like your color, Ahlem?
+# 2pm
+I have put you down for a color at 2pm, Ahlem.
 ```
 
 ---
 
 ## 🧰 Technologies Used
 
-* PostgreSQL 15+
-* SQL (DDL, DML)
-* Relational modeling principles
-* Foreign key relationships and constraints
+* Bash scripting
+* PostgreSQL (DDL + DML)
+* SQL joins and subqueries
+* Command-line interface I/O
 
 ---
 
-## 🏁 Author
+## 🧑‍💻 Author
 
 **Ahlem Lounas**
 🎓 FreeCodeCamp – Relational Database Certification
-💫 *"Exploring the universe one table at a time."*
+💇 *"Automating salon scheduling, one command at a time."*
 
 ---
 
